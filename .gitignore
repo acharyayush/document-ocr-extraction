@@ -1,0 +1,44 @@
+# macOS
+.DS_Store
+
+# Editors
+.vscode/
+.claude/settings.local.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+.Python
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Conda / virtualenv
+.conda/
+.venv/
+venv/
+ENV/
+
+# Robot Framework / Robocorp artifacts
+output/
+*.log
+*.xml
+*.html
+*.png
+*.jpg
+*.jpeg
+*.zip
+
+# Robocorp RCC local caches (optional; keep repo clean)
+.robocorp/
+credentials.json
+processed_documents.db
+summary/
