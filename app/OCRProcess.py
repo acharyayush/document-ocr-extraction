@@ -90,9 +90,6 @@ class OCRProcess(QRProcess):
         self.drive_component.setup()
         self.extraction_component.setup()
         self.all_files_metadata = self.drive_component.fetch_all_drive_files_metadata()
-        self.temp_output = {}
-        with open("temp_output.json", "w", encoding="utf-8") as temp_file:
-            json.dump(self.temp_output, temp_file, indent=2)
         run_item.set_success()
 
     @run_item(is_ticket=False)
@@ -174,7 +171,7 @@ class OCRProcess(QRProcess):
         run_item: QRRunItem = kwargs["run_item"]
         self.notify(run_item)
 
-        self.drive_component.cleanup()
+        self.drive_component.cleanup_download_directory()
         timestamp = self.run_started_at.strftime("%Y%m%d_%H%M%S")
         summary = {
             "started_at": self.run_started_at.isoformat(),

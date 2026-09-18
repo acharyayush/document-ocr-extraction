@@ -49,27 +49,26 @@ class DriveComponent(QRComponent):
             f"'{SHARED_FOLDER_ID}' in parents and "
             f"({self.mime_type_query}) and trashed = false"
         )
-        while True:
-            try:
-                response = self.drive_service.files().list(
-                    q=query,
-                    spaces='drive',
-                    fields='nextPageToken, files(id, name, mimeType, size, md5Checksum, parents)',
-                    pageSize=2,
-                    pageToken=page_token
-                ).execute()
-                self.next_page_token = response.get('nextPageToken', None)
-                return response['files']
-                
+        try:
+            response = self.drive_service.files().list(
+                q=query,
+                spaces='drive',
+                fields='nextPageToken, files(id, name, mimeType, size, md5Checksum, parents)',
+                pageSize=2,
+                pageToken=page_token
+            ).execute()
+            self.next_page_token = response.get('nextPageToken', None)
+            return response['files']
+            
 
-            except HttpError as http_err:
-                status_code = http_err.resp.status
-                self.logger.error(f"HTTP {status_code} Error: {http_err}")
-                raise
+        except HttpError as http_err:
+            status_code = http_err.resp.status
+            self.logger.error(f"HTTP {status_code} Error: {http_err}")
+            raise
 
-            except Exception as unexpected_err:
-                self.logger.error(f"Unexpected Error occured: {unexpected_err}")
-                raise
+        except Exception as unexpected_err:
+            self.logger.error(f"Unexpected Error occured: {unexpected_err}")
+            raise
 
     def download_file(self, drive_file_id: str, destination_path:str):
         # Check if local destination file already exists
@@ -105,7 +104,7 @@ class DriveComponent(QRComponent):
                 except OSError as cleanup_err:
                     self.logger.warning(f"Failed to remove incomplete file '{filePath}': {cleanup_err}")
 
-    def cleanup(self) -> None:
+    def cleanup_download_directory(self) -> None:
         """Remove download destination directory. (This is for after run)"""
         if os.path.isdir(DOWNLOADS_DESTINATION):
             try:
