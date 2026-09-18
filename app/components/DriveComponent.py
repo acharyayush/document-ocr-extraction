@@ -59,8 +59,7 @@ class DriveComponent(QRComponent):
             ).execute()
             self.next_page_token = response.get('nextPageToken', None)
             return response['files']
-            
-
+        
         except HttpError as http_err:
             status_code = http_err.resp.status
             self.logger.error(f"HTTP {status_code} Error: {http_err}")
@@ -98,11 +97,11 @@ class DriveComponent(QRComponent):
 
     def cleanup(self, filePath: str):
         #Remove file with given file path
-            if os.path.exists(filePath):
-                try:
-                    os.remove(filePath)
-                except OSError as cleanup_err:
-                    self.logger.warning(f"Failed to remove incomplete file '{filePath}': {cleanup_err}")
+        if os.path.exists(filePath):
+            try:
+                os.remove(filePath)
+            except OSError as cleanup_err:
+                self.logger.warning(f"Failed to remove incomplete file '{filePath}': {cleanup_err}")
 
     def cleanup_download_directory(self) -> None:
         """Remove download destination directory. (This is for after run)"""

@@ -21,7 +21,7 @@ class ExtractionComponent(QRComponent):
     def extract_document_data(self, file_path: str) -> dict:
         """
         Uploads local file to Gemini Files API, performs structured extraction,
-        normalizes fields, validates required keys, and returns a Python dictionary.
+         and returns a Python dictionary.
         """
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"Local file not found at path: {file_path}")
@@ -53,7 +53,6 @@ class ExtractionComponent(QRComponent):
                     temperature=0.0 # Deterministic OCR
                 )
             )
-            BuiltIn().log(f"Gemini response: {response}", console=True)
             
             # Convert response to native Python dictionary
             # response.parsed contains the instantiated Document Pydantic object
